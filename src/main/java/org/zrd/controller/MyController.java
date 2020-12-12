@@ -2,6 +2,9 @@ package org.zrd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * @Author zrd
@@ -107,9 +111,21 @@ public class MyController {
     }
 
     @RequestMapping(value = "/addclass", method = RequestMethod.POST)
-    @ResponseBody
-    public void addClass(MyClass myClass) {
-        System.out.println(myClass);
+    public String addClass(@Validated MyClass myClass, BindingResult result) {
+        if (result != null) {
+            List<ObjectError> allErrors = result.getAllErrors();
+            for (ObjectError error : allErrors) {
+                System.out.println(error.getObjectName() + ":" + error.getDefaultMessage());
+            }
+            //注意这里回显时，myclass.jsp中参数的写法
+            return "myclass";
+        }
+        return "hello";
+    }
+
+    @RequestMapping("/uploadFile")
+    public String uploads() {
+        return "commonsupload";
     }
 
 }

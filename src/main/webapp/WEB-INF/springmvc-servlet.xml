@@ -4,18 +4,56 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-   
+
     <context:component-scan base-package="org.zrd" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <mvc:annotation-driven />
-<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" id="handlerMapping"/>-->
-<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" id="handlerAdapter"/>-->
+    <mvc:annotation-driven/>
+    <!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" id="handlerMapping"/>-->
+    <!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" id="handlerAdapter"/>-->
+
+    <!--    在springmvc中静态资源默认被自动拦截，意味着上传的图片无法访问，做如下配置-->
+    <mvc:resources mapping="/**" location="/"/>
 
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
-        <property name="prefix" value="/jsp/" />
-        <property name="suffix" value=".jsp" />
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--       CommonsMultipartResolver需要依赖commons-fileupload -->
+    <!--    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">-->
+    <!--                默认的编码-->
+    <!--        <property name="defaultEncoding" value="UTF-8"/>-->
+    <!--                上传总文件的大小-->
+    <!--        <property name="maxUploadSize" value="1048576"/>-->
+    <!--                上传单个文件的大小-->
+    <!--        <property name="maxUploadSizePerFile" value="1048576"/>-->
+    <!--                内存中最大的数据量，超过这个数据量，数据往硬盘中写-->
+    <!--        <property name="maxInMemorySize" value="4096"/>-->
+    <!--                临时目录，超过maxInMemorySize的大小后，数据往临时目录中写，等全部上传完成再将数据合并到文件上传目录-->
+    <!--                <property name="uploadTempDir" value="file://E:\\tmp"/>-->
+    <!--    </bean>-->
+
+    <!--    需要在web.xml中配置文件大小，即使不限制上传文件大小也要在web.xml中配置multipart-config-->
+    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver"
+          id="multipartResolver"></bean>
+
+    <!--    配置校验bean-->
+    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" id="validatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="bundleMessageSource"/>
+    </bean>
+    <!--    配置错误提示文本-->
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="bundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:MyMessage</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="300"/>
+    </bean>
+    <mvc:annotation-driven validator="validatorFactoryBean"/>
 </beans>

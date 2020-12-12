@@ -1,5 +1,7 @@
 package org.zrd.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -8,6 +10,8 @@ import java.util.List;
  */
 public class MyClass {
 
+    @NotNull(message = "{myClass.id.notnull}")
+    @Max(value = 20, message = "{myClass.id.error}")
     private Integer id;
 
     private List<Student> students;

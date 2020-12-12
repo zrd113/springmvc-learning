@@ -15,23 +15,23 @@
     <table>
         <tr>
             <td>班级编号：</td>
-            <td><input type="text" name="id"></td>
+            <td><input type="text" name="id" value="${myClass.id}"></td>
         </tr>
         <tr>
             <td>学生编号：</td>
-            <td><input type="text" name="students[0].id"></td>
+            <td><input type="text" name="students[0].id" value="${myClass.students[0].id}"></td>
         </tr>
         <tr>
             <td>学生姓名：</td>
-            <td><input type="text" name="students[0].name"></td>
+            <td><input type="text" name="students[0].name" value="${myClass.students[0].name}"></td>
         </tr>
         <tr>
             <td>学生编号：</td>
-            <td><input type="text" name="students[1].id"></td>
+            <td><input type="text" name="students[1].id" value="${myClass.students[1].id}"></td>
         </tr>
         <tr>
             <td>学生姓名：</td>
-            <td><input type="text" name="students[1].name"></td>
+            <td><input type="text" name="students[1].name" value="${myClass.students[1].name}"></td>
         </tr>
         <tr>
             <td colspan="2">
