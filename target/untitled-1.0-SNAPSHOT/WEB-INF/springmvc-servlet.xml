@@ -56,4 +56,20 @@
         <property name="cacheSeconds" value="300"/>
     </bean>
     <mvc:annotation-driven validator="validatorFactoryBean"/>
+
+    <!--    拦截器配置-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor1"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor2"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor3"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

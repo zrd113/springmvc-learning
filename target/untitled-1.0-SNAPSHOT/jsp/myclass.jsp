@@ -15,7 +15,7 @@
     <table>
         <tr>
             <td>班级编号：</td>
-            <td><input type="text" name="id" value="${id}"></td>
+            <td><input type="text" name="id" value="${myClass.id}"></td>
         </tr>
         <tr>
             <td>学生编号：</td>
